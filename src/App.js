@@ -2,8 +2,9 @@ import React, { useCallback, useState } from "react";
 import Flow from "./Components/React-Flow";
 import Sidebar from "react-sidebar";
 import BlockList from "./Components/BlocksLists.jsx/BlockList";
+import { stateConnected } from "./store/redux_tools";
 
-const App = () => {
+const App = (props) => {
   const [sidebarOpen, onSetSidebarOpen] = useState(true);
   return (
     <>
@@ -31,4 +32,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default stateConnected(App);
