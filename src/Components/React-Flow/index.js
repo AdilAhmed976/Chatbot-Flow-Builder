@@ -9,15 +9,26 @@ import ReactFlow, {
   MiniMap,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import TextMessage from "./node-edge-types/Nodes/TextMessage";
+import ButtonEdge from "./node-edge-types/Edges/ButtonEdge";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = () => {
+const nodeTypes = {
+  textmessage: TextMessage,
+};
+
+const edgeTypes = {
+  button: ButtonEdge,
+};
+
+const Flow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -47,13 +58,21 @@ const DnDFlow = () => {
         id: getId(),
         type,
         position,
-        data: { label: `${type} node` },
+        data: { label: `${type}` },
       };
 
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
   );
+
+  const onNodeClick = (event, node) => {
+    setSelectedNode(node);
+  };
+
+  const onPaneClick = (event, node) => {
+    if (selectedNode) setSelectedNode(null);
+  };
 
   return (
     <div className="dndflow h-full w-full">
@@ -69,6 +88,10 @@ const DnDFlow = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             fitView
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            onNodeClick={onNodeClick}
+            onPaneClick={onPaneClick}
           >
             <MiniMap />
             <Controls />
@@ -80,4 +103,4 @@ const DnDFlow = () => {
   );
 };
 
-export default DnDFlow;
+export default Flow;

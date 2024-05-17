@@ -7,13 +7,11 @@ const App = () => {
   const [sidebarOpen, onSetSidebarOpen] = useState(true);
   return (
     <>
-      <nav class="fixed top-0 h-16 z-50 w-full bg-white border-b border-gray-200">
-        <div class="px-3 py-3 lg:px-5 lg:pl-3"></div>
-      </nav>
+      <nav class="fixed top-0 h-14 z-50 w-full bg-white border-b border-gray-200"></nav>
       <div>
         <Sidebar
           sidebar={
-            <div className="w-[300px] bg-[#FAFAFA] h-screen overflow-y-scroll">
+            <div className="w-[300px] bg-[#FAFAFA] h-screen">
               <BlockList />
             </div>
           }
