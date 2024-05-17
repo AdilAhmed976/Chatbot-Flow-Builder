@@ -11,6 +11,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import TextMessage from "./node-edge-types/Nodes/TextMessage";
 import ButtonEdge from "./node-edge-types/Edges/ButtonEdge";
+import { stateConnected } from "../../store/redux_tools";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -23,17 +24,21 @@ const edgeTypes = {
   button: ButtonEdge,
 };
 
-const Flow = () => {
+const Flow = (props) => {
+  const { flowData } = props;
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    flowData?.nodes ? flowData?.nodes : []
+  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState(
+    flowData?.edges ? flowData?.edges : []
+  );
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedNode, setSelectedNode] = useState(null);
 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    []
-  );
+  const onConnect = useCallback((params) => {
+    setEdges((eds) => addEdge(params, eds));
+  }, []);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -103,4 +108,4 @@ const Flow = () => {
   );
 };
 
-export default Flow;
+export default stateConnected(Flow);
