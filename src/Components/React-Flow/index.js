@@ -1,50 +1,83 @@
-import React, { useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
+  ReactFlowProvider,
   addEdge,
-  MiniMap,
-  Controls,
-  Background,
   useNodesState,
   useEdgesState,
+  Controls,
+  Background,
+  MiniMap,
 } from "reactflow";
-
 import "reactflow/dist/style.css";
-import ButtonEdge from "./node-edge-types/Edges/ButtonEdge";
-import TextMessage from "./node-edge-types/Nodes/TextMessage";
-import { TEXT_MESSAGE_NODE } from "../../Core/Strings";
 
-const nodeTypes = {
-  textmessage: TextMessage,
-};
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 
-const edgeTypes = {
-  button: ButtonEdge,
-};
-
-const Flow = () => {
+const DnDFlow = () => {
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     []
   );
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData("application/reactflow");
+
+      // check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+      const position = reactFlowInstance.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+      const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { label: `${type} node` },
+      };
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance]
+  );
+
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      fitView
-      nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
-      className="overview"
-    >
-      <MiniMap zoomable pannable />
-      <Controls />
-      <Background />
-    </ReactFlow>
+    <div className="dndflow h-full w-full">
+      <ReactFlowProvider>
+        <div className="reactflow-wrapper h-full w-full" ref={reactFlowWrapper}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onInit={setReactFlowInstance}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            fitView
+          >
+            <MiniMap />
+            <Controls />
+            <Background />
+          </ReactFlow>
+        </div>
+      </ReactFlowProvider>
+    </div>
   );
 };
 
-export default Flow;
+export default DnDFlow;
