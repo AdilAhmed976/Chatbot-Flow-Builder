@@ -12,6 +12,7 @@ import "reactflow/dist/style.css";
 import TextMessage from "./node-edge-types/Nodes/TextMessage";
 import ButtonEdge from "./node-edge-types/Edges/ButtonEdge";
 import { stateConnected } from "../../store/redux_tools";
+import { useFlowContext } from "../../Context/FlowContext";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -34,7 +35,7 @@ const Flow = (props) => {
     flowData?.edges ? flowData?.edges : []
   );
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [selectedNode, setSelectedNode] = useState(null);
+  const { selectedNode, setSelectedNode } = useFlowContext();
 
   const onConnect = useCallback((params) => {
     setEdges((eds) => addEdge(params, eds));

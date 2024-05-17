@@ -1,11 +1,15 @@
 import React, { useCallback, useState } from "react";
 import Flow from "./Components/React-Flow";
 import Sidebar from "react-sidebar";
-import BlockList from "./Components/BlocksLists.jsx/BlockList";
+import BlockList from "./Components/BlocksLists/BlockList";
 import { stateConnected } from "./store/redux_tools";
+import { useFlowContext } from "./Context/FlowContext";
+import Settings from "./Components/Settings/Settings";
 
 const App = (props) => {
   const [sidebarOpen, onSetSidebarOpen] = useState(true);
+  const { selectedNode } = useFlowContext();
+
   return (
     <>
       <nav class="fixed top-0 h-14 z-50 w-full bg-white border-b border-gray-200"></nav>
@@ -13,7 +17,7 @@ const App = (props) => {
         <Sidebar
           sidebar={
             <div className="w-[300px] bg-[#FAFAFA] h-screen">
-              <BlockList />
+              {selectedNode ? <Settings /> : <BlockList />}
             </div>
           }
           docked={sidebarOpen}
