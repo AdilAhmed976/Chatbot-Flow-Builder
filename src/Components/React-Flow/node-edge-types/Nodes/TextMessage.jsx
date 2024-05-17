@@ -3,11 +3,7 @@ import { Handle, Position } from "reactflow";
 
 const handleStyle = { left: 10 };
 
-function TextNode({ data, isConnectable }) {
-  const onChange = useCallback((evt) => {
-    console.log(evt.target.value);
-  }, []);
-
+function TextMessage({ data, isConnectable }) {
   return (
     <div>
       <Handle
@@ -15,11 +11,11 @@ function TextNode({ data, isConnectable }) {
         position={Position.Top}
         isConnectable={isConnectable}
       />
-      <div>
+      <div className="max-w-60 border border-gray-900 rounded-lg p-2">
         <label htmlFor="text">Text: {data.label}</label>
       </div>
     </div>
   );
 }
 
-export default TextNode;
+export default TextMessage;
