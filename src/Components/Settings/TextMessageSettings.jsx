@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
+import Alert from "../../utils/Alert";
 
 const TextMessageSettings = ({
   reactFlow,
@@ -29,6 +30,7 @@ const TextMessageSettings = ({
       ),
       edges: allEdges,
     });
+    Alert("Updated Successfully.");
   };
   const handleChange = (val) => {
     setValue(val);
@@ -52,7 +54,7 @@ const TextMessageSettings = ({
         placeholder="Write your thoughts here..."
       ></textarea>
 
-      <Button text="Save" onClick={handleSave} className={"mt-4"} />
+      <Button text="Update" onClick={handleSave} className={"mt-4"} />
     </div>
   );
 };
