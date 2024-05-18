@@ -18,7 +18,7 @@ const App = (props) => {
         <div>
           <Sidebar
             sidebar={
-              <div className="w-[300px] bg-white h-screen border-l">
+              <div className="w-[350px] bg-white h-screen border-l">
                 {selectedNode ? (
                   <Settings {...props} />
                 ) : (

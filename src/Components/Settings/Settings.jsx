@@ -8,9 +8,14 @@ const Settings = (props) => {
   const { selectedNode, setSelectedNode } = useFlowContext();
   const reactFlow = useReactFlow();
 
+  const renderTitleText = (nodeType) => {
+    let obj = { [TEXT_MESSAGE_NODE]: "Message" };
+    return obj[nodeType] ? obj[nodeType] : nodeType;
+  };
+
   return (
     <div className="h-full">
-      <div className="p-3 px-4 flex items-center gap-2  border-b-2 border-b-gray-200">
+      <div className="p-3 px-4 flex items-center gap-2  border-b border-b-gray-200">
         <button
           onClick={() => {
             setSelectedNode(null);
@@ -27,7 +32,7 @@ const Settings = (props) => {
             <path d="M7.82843 10.9999H20V12.9999H7.82843L13.1924 18.3638L11.7782 19.778L4 11.9999L11.7782 4.22168L13.1924 5.63589L7.82843 10.9999Z"></path>
           </svg>
         </button>
-        <p className="text-2xl">{selectedNode?.type}</p>
+        <p className="text-2xl">{renderTitleText(selectedNode?.type)}</p>
       </div>
       <div className="h-[91%]">
         {selectedNode.type === TEXT_MESSAGE_NODE ? (

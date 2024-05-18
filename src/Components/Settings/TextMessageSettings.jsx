@@ -10,18 +10,22 @@ const TextMessageSettings = ({
   const [value, setValue] = useState(selectedNode?.data?.label);
 
   const handleSave = () => {
+    let flowSelectedNode = reactFlow.getNode(selectedNode.id);
     let currentNode = {
-      ...selectedNode,
-      data: { ...selectedNode.data, label: value },
+      ...flowSelectedNode,
+      data: { ...flowSelectedNode.data, label: value },
     };
     let allNodes = reactFlow.getNodes();
     let allEdges = reactFlow.getEdges();
+
     reactFlow?.setNodes(
-      allNodes.map((node) => (node.id === currentNode.id ? currentNode : node))
+      allNodes.map((node) =>
+        node.id === currentNode.id ? { ...currentNode } : node
+      )
     );
     props?._updateFlowData({
       nodes: allNodes.map((node) =>
-        node.id === currentNode.id ? currentNode : node
+        node.id === currentNode.id ? { ...currentNode } : node
       ),
       edges: allEdges,
     });
@@ -35,7 +39,7 @@ const TextMessageSettings = ({
   }, [selectedNode?.id]);
 
   return (
-    <div className="p-2 flex flex-col gap-2">
+    <div className="p-4 flex flex-col gap-2">
       <label for="message" class="block mb-2 text-sm font-medium text-gray-900">
         Text
       </label>
@@ -48,7 +52,7 @@ const TextMessageSettings = ({
         placeholder="Write your thoughts here..."
       ></textarea>
 
-      <Button text="Save" onClick={handleSave} />
+      <Button text="Save" onClick={handleSave} className={"mt-4"} />
     </div>
   );
 };
