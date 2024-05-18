@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import FlowProvider from "./Context/FlowContext";
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,10 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <FlowProvider>
-          <App />
+          <>
+            <App />
+            <Toaster position="top-center" reverseOrder={false} />
+          </>
         </FlowProvider>
       </PersistGate>
     </Provider>
