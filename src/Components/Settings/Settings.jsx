@@ -1,11 +1,16 @@
 import React from "react";
 import { useFlowContext } from "../../Context/FlowContext";
+import { useReactFlow } from "reactflow";
+import { TEXT_MESSAGE_NODE } from "../../Core/Strings";
+import TextMessageSettings from "./TextMessageSettings";
 
 const Settings = (props) => {
   const { selectedNode, setSelectedNode } = useFlowContext();
+  const reactFlow = useReactFlow();
+
   return (
     <div className="h-full">
-      <div className="p-2 px-4 flex items-center gap-2">
+      <div className="p-3 px-4 flex items-center gap-2  border-b-2 border-b-gray-200">
         <button
           onClick={() => {
             setSelectedNode(null);
@@ -24,7 +29,18 @@ const Settings = (props) => {
         </button>
         <p className="text-2xl">{selectedNode?.type}</p>
       </div>
-      <div className="flex flex-wrap p-4 gap-4"></div>
+      <div className="h-[91%]">
+        {selectedNode.type === TEXT_MESSAGE_NODE ? (
+          <TextMessageSettings
+            reactFlow={reactFlow}
+            selectedNode={selectedNode}
+            setSelectedNode={setSelectedNode}
+            {...props}
+          />
+        ) : (
+          <>Node not Support in settings</>
+        )}
+      </div>
     </div>
   );
 };
