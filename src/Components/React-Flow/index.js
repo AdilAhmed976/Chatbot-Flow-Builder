@@ -38,7 +38,7 @@ const Flow = (props) => {
   const { selectedNode, setSelectedNode } = useFlowContext();
 
   const onConnect = useCallback((params) => {
-    setEdges((eds) => addEdge(params, eds));
+    setEdges((eds) => addEdge({ ...params, type: "button" }, eds));
   }, []);
 
   const onDragOver = useCallback((event) => {
