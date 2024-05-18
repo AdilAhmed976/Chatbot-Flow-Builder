@@ -22,7 +22,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  button: ButtonEdge,
+  edgebutton: ButtonEdge,
 };
 
 const Flow = (props) => {
@@ -38,7 +38,7 @@ const Flow = (props) => {
   const { selectedNode, setSelectedNode } = useFlowContext();
 
   const onConnect = useCallback((params) => {
-    setEdges((eds) => addEdge({ ...params, type: "button" }, eds));
+    setEdges((eds) => addEdge({ ...params, type: "edgebutton" }, eds));
   }, []);
 
   const onDragOver = useCallback((event) => {
