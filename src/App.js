@@ -5,6 +5,7 @@ import BlockList from "./Components/BlocksLists/BlockList";
 import { stateConnected } from "./store/redux_tools";
 import { useFlowContext } from "./Context/FlowContext";
 import Settings from "./Components/Settings/Settings";
+import { ReactFlowProvider } from "reactflow";
 
 const App = (props) => {
   const [sidebarOpen, onSetSidebarOpen] = useState(true);
@@ -12,26 +13,32 @@ const App = (props) => {
 
   return (
     <>
-      <nav class="fixed top-0 h-14 z-50 w-full bg-white border-b border-gray-200"></nav>
-      <div>
-        <Sidebar
-          sidebar={
-            <div className="w-[300px] bg-[#FAFAFA] h-screen">
-              {selectedNode ? <Settings /> : <BlockList />}
-            </div>
-          }
-          docked={sidebarOpen}
-          open={sidebarOpen}
-          onSetOpen={onSetSidebarOpen}
-          shadow={false}
-          styles={{
-            sidebar: { backgroundColor: "white", zIndex: 100 },
-          }}
-          pullRight
-        >
-          <Flow />
-        </Sidebar>
-      </div>
+      <ReactFlowProvider>
+        <nav class="fixed top-0 h-14 z-50 w-full bg-white border-b border-gray-200"></nav>
+        <div>
+          <Sidebar
+            sidebar={
+              <div className="w-[300px] bg-[#FAFAFA] h-screen">
+                {selectedNode ? (
+                  <Settings {...props} />
+                ) : (
+                  <BlockList {...props} />
+                )}
+              </div>
+            }
+            docked={sidebarOpen}
+            open={sidebarOpen}
+            onSetOpen={onSetSidebarOpen}
+            shadow={false}
+            styles={{
+              sidebar: { backgroundColor: "white", zIndex: 100 },
+            }}
+            pullRight
+          >
+            <Flow />
+          </Sidebar>
+        </div>
+      </ReactFlowProvider>
     </>
   );
 };
