@@ -3,6 +3,8 @@ import { TEXT_MESSAGE_NODE } from "../../Core/Strings";
 import MessageIcon from "../../icons/MessageIcon";
 import Button from "../Button/Button";
 import { useReactFlow } from "reactflow";
+import Alert from "../../utils/Alert";
+import Error from "../../utils/Error";
 
 const BlockList = (props) => {
   const onDragStart = (event, nodeType) => {
@@ -14,10 +16,40 @@ const BlockList = (props) => {
   const handleSave = () => {
     let allNodes = reactFlow.getNodes();
     let allEdges = reactFlow.getEdges();
-    props?._updateFlowData({
-      nodes: [...allNodes],
-      edges: [...allEdges],
-    });
+
+    const targetNodeIds = new Set(allEdges.map((edge) => edge.target));
+    const unconnectedTargetNodes = allNodes.filter(
+      (node) => !targetNodeIds.has(node.id)
+    );
+
+    if (unconnectedTargetNodes.length > 1) {
+      let x =
+        unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
+          ?.x;
+
+      let y =
+        unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
+          ?.y;
+
+      if (x && y) {
+        reactFlow?.fitBounds(
+          {
+            x,
+            y,
+            height: 100,
+            width: 100,
+          },
+          { duration: 500, easing: "easeInOut" }
+        );
+      }
+      Error("Connect Node To Save Changes.");
+    } else {
+      props?._updateFlowData({
+        nodes: [...allNodes],
+        edges: [...allEdges],
+      });
+      Alert("Saved Successfully.");
+    }
   };
 
   const handleReset = () => {
@@ -27,6 +59,7 @@ const BlockList = (props) => {
       nodes: [],
       edges: [],
     });
+    Alert("Data Reset Successfully.");
   };
 
   return (
