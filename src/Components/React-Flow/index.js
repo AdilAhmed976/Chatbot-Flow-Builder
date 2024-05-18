@@ -13,9 +13,9 @@ import TextMessage from "./node-edge-types/Nodes/TextMessage";
 import ButtonEdge from "./node-edge-types/Edges/ButtonEdge";
 import { stateConnected } from "../../store/redux_tools";
 import { useFlowContext } from "../../Context/FlowContext";
+import { v4 as uuidv4 } from "uuid";
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `dndnode_${uuidv4()}`;
 
 const nodeTypes = {
   textmessage: TextMessage,
