@@ -20,6 +20,15 @@ const BlockList = (props) => {
     });
   };
 
+  const handleReset = () => {
+    reactFlow.setNodes([]);
+    reactFlow.getEdges([]);
+    props?._updateFlowData({
+      nodes: [],
+      edges: [],
+    });
+  };
+
   return (
     <div>
       <div className="border-b p-4 py-2">
@@ -37,6 +46,7 @@ const BlockList = (props) => {
       </div>
       <div className="p-4 py-0">
         <Button text={"Save"} onClick={handleSave} />
+        <Button text={"Reset"} onClick={handleReset} className={"mt-4"} />
       </div>
     </div>
   );
