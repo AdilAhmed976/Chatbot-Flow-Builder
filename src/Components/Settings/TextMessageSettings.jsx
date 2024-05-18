@@ -16,9 +16,13 @@ const TextMessageSettings = ({
     };
     let allNodes = reactFlow.getNodes();
     let allEdges = reactFlow.getEdges();
-    reactFlow?.setNodes([...allNodes, currentNode]);
+    reactFlow?.setNodes(
+      allNodes.map((node) => (node.id === currentNode.id ? currentNode : node))
+    );
     props?._updateFlowData({
-      nodes: [...allNodes, currentNode],
+      nodes: allNodes.map((node) =>
+        node.id === currentNode.id ? currentNode : node
+      ),
       edges: allEdges,
     });
   };
@@ -32,11 +36,18 @@ const TextMessageSettings = ({
 
   return (
     <div className="p-2 flex flex-col gap-2">
-      <input
-        className="h-full w-full p-2 rounded-lg border"
+      <label for="message" class="block mb-2 text-sm font-medium text-gray-900">
+        Text
+      </label>
+      <textarea
         value={value}
         onChange={(e) => handleChange(e.target.value)}
-      />
+        id="message"
+        rows="4"
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+        placeholder="Write your thoughts here..."
+      ></textarea>
+
       <Button text="Save" onClick={handleSave} />
     </div>
   );
