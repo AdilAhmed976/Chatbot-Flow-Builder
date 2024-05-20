@@ -67,19 +67,49 @@ const BlockList = (props) => {
       <div className="border-b p-4 py-2">
         <p className="text-2xl mb-4">Types</p>
       </div>
-      <div className="flex flex-wrap gap-4 mb-4 mt-4 p-4 py-2">
-        <div
-          className="border border-blue-400 p-3 py-1 rounded-lg cursor-pointer bg-white flex flex-col items-center"
-          onDragStart={(event) => onDragStart(event, TEXT_MESSAGE_NODE)}
-          draggable
-        >
-          <MessageIcon />
-          <text className="text-blue-400">Message</text>
+      <div className="flex flex-col justify-between items-center border h-[90vh]">
+        <div className="w-full h-full">
+          <div className="flex flex-wrap gap-4 mb-4 mt-4 p-4 py-2 ">
+            <div
+              className="border border-blue-400 p-3 py-1 rounded-lg cursor-pointer bg-white flex flex-col items-center"
+              onDragStart={(event) => onDragStart(event, TEXT_MESSAGE_NODE)}
+              draggable
+            >
+              <MessageIcon />
+              <text className="text-blue-400">Message</text>
+            </div>
+          </div>
+          <div className="p-4 py-0">
+            <Button text={"Save"} onClick={handleSave} />
+            <Button text={"Reset"} onClick={handleReset} className={"mt-4"} />
+          </div>
         </div>
-      </div>
-      <div className="p-4 py-0">
-        <Button text={"Save"} onClick={handleSave} />
-        <Button text={"Reset"} onClick={handleReset} className={"mt-4"} />
+        <div className="mt-4 p-4 border rounded-lg m-4 items-end">
+          <p>
+            Project Submitted by <b>Adil Ahmed</b>
+          </p>
+          <p>
+            email :
+            <a className="font-bold" href="mailto:adilahmedah976@gmail.com">
+              {" "}
+              adilahmedah976@gmail.com
+            </a>
+          </p>
+          <p>
+            contact :<a className="font-bold"> 7509144758</a>
+          </p>
+          <p>
+            Resume:{" "}
+            <a
+              rel="noreferrer"
+              href="https://drive.google.com/file/d/1UNzOI16xoD0ieay0vM-B0GEE32z27f-C/view?usp=sharing"
+              target="_blank"
+              className="font-bold"
+            >
+              Click
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
