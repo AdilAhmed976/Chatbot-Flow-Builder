@@ -77,7 +77,7 @@ const BlockList = (props) => {
 
   const handleReset = () => {
     reactFlow.setNodes([]);
-    reactFlow.getEdges([]);
+    reactFlow.setEdges([]);
     props?._updateFlowData({
       nodes: [],
       edges: [],
