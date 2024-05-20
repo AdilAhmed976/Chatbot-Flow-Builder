@@ -17,62 +17,63 @@ const BlockList = (props) => {
     let allNodes = reactFlow.getNodes();
     let allEdges = reactFlow.getEdges();
 
-    // Checking for the disconnected Nodes & returning the function to not to execute the save functionality
-    for (let i = 0; i < allNodes.length - 1; i++) {
-      let nodeIncomers = getIncomers(allNodes?.[i], allNodes, allEdges);
-      if (nodeIncomers.length === 0) {
-        reactFlow?.fitBounds(
-          {
-            x: allNodes?.[i]?.position?.x,
-            y: allNodes?.[i]?.position?.y,
-            height: 100,
-            width: 100,
-          },
-          { duration: 500, easing: "easeInOut" }
-        );
-        Error("Connect Node To Save Changes.");
-        return;
-      }
-    }
-    // saving the data as all the nodes are connected till this point of code 
-    props?._updateFlowData({
-      nodes: [...allNodes],
-      edges: [...allEdges],
-    });
-    Alert("Saved Successfully.");
-    // const targetNodeIds = new Set(allEdges.map((edge) => edge.target));
-    // const unconnectedTargetNodes = allNodes.filter(
-    //   (node) => !targetNodeIds.has(node.id)
-    // );
-
-    // if (unconnectedTargetNodes.length > 1) {
-    //   let x =
-    //     unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
-    //       ?.x;
-
-    //   let y =
-    //     unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
-    //       ?.y;
-
-    //   if (x && y) {
+    // // Checking for the disconnected Nodes & returning the function to not to execute the save functionality
+    // for (let i = 0; i < allNodes.length - 1; i++) {
+    //   let nodeIncomers = getIncomers(allNodes?.[i], allNodes, allEdges);
+    //   if (nodeIncomers.length === 0) {
     //     reactFlow?.fitBounds(
     //       {
-    //         x,
-    //         y,
+    //         x: allNodes?.[i]?.position?.x,
+    //         y: allNodes?.[i]?.position?.y,
     //         height: 100,
     //         width: 100,
     //       },
     //       { duration: 500, easing: "easeInOut" }
     //     );
+    //     Error("Connect Node To Save Changes.");
+    //     return;
     //   }
-    //   Error("Connect Node To Save Changes.");
-    // } else {
-    //   props?._updateFlowData({
-    //     nodes: [...allNodes],
-    //     edges: [...allEdges],
-    //   });
-    //   Alert("Saved Successfully.");
     // }
+    // // saving the data as all the nodes are connected till this point of code 
+    // props?._updateFlowData({
+    //   nodes: [...allNodes],
+    //   edges: [...allEdges],
+    // });
+    // Alert("Saved Successfully.");
+
+    const targetNodeIds = new Set(allEdges.map((edge) => edge.target));
+    const unconnectedTargetNodes = allNodes.filter(
+      (node) => !targetNodeIds.has(node.id)
+    );
+
+    if (unconnectedTargetNodes.length > 1) {
+      let x =
+        unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
+          ?.x;
+
+      let y =
+        unconnectedTargetNodes?.[unconnectedTargetNodes.length - 1]?.position
+          ?.y;
+
+      if (x && y) {
+        reactFlow?.fitBounds(
+          {
+            x,
+            y,
+            height: 100,
+            width: 100,
+          },
+          { duration: 500, easing: "easeInOut" }
+        );
+      }
+      Error("Connect Node To Save Changes.");
+    } else {
+      props?._updateFlowData({
+        nodes: [...allNodes],
+        edges: [...allEdges],
+      });
+      Alert("Saved Successfully.");
+    }
   };
 
   const handleReset = () => {
