@@ -99,7 +99,12 @@ const Flow = (props) => {
           onNodeClick={onNodeClick}
           onPaneClick={onPaneClick}
         >
-          <MiniMap />
+          <MiniMap
+            pannable
+            zoomable
+            nodeColor={"#d3d3d3"}
+            style={{ border: "2px solid #d3d3d3" }}
+          />
           <Controls />
           <Background />
         </ReactFlow>
